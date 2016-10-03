@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Register</title>
+	<link rel="stylesheet" type="text/css" href="css/register.css">
+</head>
+<body>
+
+	<form class="register" action="catalog.html" id="registerSubmit">
+		<table>
+
+			<tr>
+				<td colspan="2" id="title">Register</td>
+			</tr>
+		
+			<tr>
+				<td>Username: </td>
+				<td><input type="text" name="usernames" id="username" placeholder="Enter username"></td>
+			</tr>
+		
+			<tr>
+				<td></td>
+				<td><p id="messageUser"></p></td>
+			</tr>
+		
+			<tr>
+				<td>Email: </td>
+				<td><input type="email" name="" id="email" placeholder="Enter Email" id="email"></td>
+			</tr>
+		
+			<tr>
+				<td></td>
+				<td><p id="messageEmail"></p></td>
+			</tr>
+		
+			<tr>
+				<td>Password: </td>
+				<td><input type="password" name="" placeholder="Enter Password" id="password"></td>
+			</tr>
+		
+			<tr>
+				<td></td>
+				<td><p id="messagePass"></p></td>
+			</tr>
+		
+			<tr>
+				<td>Confirm password: </td>
+				<td><input type="password" name="" placeholder="Enter Confirm password" id="confirmPassword"></td>
+			</tr>
+		
+			<tr>
+				<td></td>
+				<td colspan="2"><p id="messageConfirmPass"></p></td>
+			</tr>
+		
+			<tr>
+				<td>Gender: </td>
+				<td>
+					<input type="radio" id="male" onclick="checkRadio()"> Nam 
+					<input type="radio"	id="female" onclick="checkRadio2()"> Nữ
+				</td>
+			</tr>
+		
+			<tr>
+				<td></td>
+				<td><p id="messageGender"></p></td>
+			</tr>
+			<tr>
+				<td>Country</td>
+				<td>
+					<select id="country">
+						<option value="VN">Viet Nam</option>
+						<option value="VG">Virgin Islands, British</option>
+						<option value="VI">Virgin Islands, U.S.</option>
+						<option value="WF">Wallis and Futuna</option>
+						<option value="EH">Western Sahara</option>
+						<option value="YE">Yemen</option>
+						<option value="ZM">Zambia</option>
+						<option value="ZW">Zimbabwe</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="button" value="Register" onclick="register()" id="button"></td>
+			</tr>
+
+			
+
+		</table>
+	</form> 
+		<script type="text/javascript">
+
+		function register(){
+
+			var a = document.getElementById("country");
+			var strUser = a.options[a.selectedIndex].text;
+
+			alert(strUser);
+			var user = document.getElementById("username").value.trim();
+			var email = document.getElementById("email").value.trim();
+			var pass = document.getElementById("password").value.trim();
+			var confirmPass = document.getElementById("confirmPassword").value.trim();
+			var validateEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			
+
+			//check user name
+			if(user == null || user == ""){
+				document.getElementById('messageUser').innerHTML = "User name can't be blank";
+				shake();
+				shakeit(document.getElementById('username'));
+				return false;
+			}else if(user.length < 6){
+				document.getElementById('messageUser').innerHTML = "User name than 6 character";
+				shake();
+				shakeit(document.getElementById('username'));
+				return false;
+			}else{
+				document.getElementById('messageUser').innerHTML = '';				
+			}
+
+			//check email
+			if(email == null || email == ""){
+				document.getElementById('messageEmail').innerHTML =" Email can't be blank ";
+				shake();
+				shakeit(document.getElementById('email'));
+				return false;				
+			}else if(validateEmail.test(email)){
+				document.getElementById('messageEmail').innerHTML ='';				
+			}else{
+				document.getElementById('messageEmail').innerHTML = 'Not a valid e-mail addres';
+				shake();
+				shakeit(document.getElementById('email'));
+				return false;
+			}
+
+			//check password
+			if(pass == null || pass == ""){
+				document.getElementById('messagePass').innerHTML="Password can't be blank";
+				
+				shake();
+				shakeit(document.getElementById('password'));
+				
+				return false;
+			}else if(pass < 1){
+				document.getElementById('messagePass').innerHTML="password than 8 character";
+				
+				shake();
+				shakeit(document.getElementById('password'));
+				
+				return false;
+			}
+			else{
+				if(/[a-z]/.test(pass) && /[A-Z]/.test(pass) && /\W/.test(pass) && /[1-9]/.test(pass)){
+					document.getElementById('messagePass').innerHTML="";
+				}else{
+					document.getElementById('messagePass').innerHTML="password invalid";
+
+					shake();
+					shakeit(document.getElementById('password'));
+					
+					return false;
+				}			
+			}
+
+			//check Confirm password
+			if(confirmPass == null || confirmPass == ""){
+				document.getElementById('messageConfirmPass').innerHTML ="Confirm password can't be blank ";
+
+				shake();
+				shakeit(document.getElementById('confirmPassword'));
+
+				return false;	
+			}else if(confirmPass != pass){
+				document.getElementById('messageConfirmPass').innerHTML = "Confirm password do not match";	
+
+				shake();
+				shakeit(document.getElementById('confirmPassword'));
+
+				return false;			
+			}else{
+				document.getElementById('messageConfirmPass').innerHTML = "";				
+			}
+
+			//check gender
+			var checkMale = document.getElementById('male');
+			var chaeckFemale = document.getElementById('female')
+			if(checkMale.checked || chaeckFemale.checked){
+				document.getElementById('messageGender').innerHTML='';
+			}else{
+				document.getElementById('messageGender').innerHTML="You must select male or female";
+				return false;
+			}
+
+			function shake(){
+				var interval;
+				shakeit = function(element){
+				    element.style.display = "block";
+				    var x = -1;
+				    interval = setInterval(function(){
+				        if(x == -1){
+				            element.style.marginLeft = "10px";
+				        }else{
+				            switch(x){
+				                case 0 :
+				                    element.style.marginLeft = "-10px";
+				                    break;
+				                case 1 :
+				                    element.style.marginLeft = "0px";
+				                	break;
+				                case 2 :
+				                    element.style.marginRight = "-10px";
+				                    break;
+				                default :
+				                    clearInterval(interval);
+				            }
+				   		}
+				    	x++;
+				  	},50)    
+				}
+			}
+
+			document.getElementById('registerSubmit').submit();
+		
+		}
+
+		function checkRadio(){
+			var checkMale = document.getElementById('male');
+			var checkFemale = document.getElementById('female');
+			if(checkMale.checked){
+				checkFemale.checked = false;
+			}
+		}
+
+		function checkRadio2(){
+			var checkMale = document.getElementById('male');
+			var checkFemale = document.getElementById('female');
+			if(checkFemale.checked){
+				checkMale.checked = false;
+			}			
+		}
+
+
+	</script>
+</body>
+</html>
